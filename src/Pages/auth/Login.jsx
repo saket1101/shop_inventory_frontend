@@ -1,8 +1,8 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
-const Registration = () => {
-    let navigate = useNavigate();
+const Login = () => {
+let navigate = useNavigate();
   return (
     <div className="flex w-full h-screen bg-gray-300">
       <div className="w-full flex items-center justify-center lg:w-1/2 ">
@@ -11,14 +11,6 @@ const Registration = () => {
             Welcome to Seller-Inventory
           </h1>
           <div>
-            <div>
-              <label className="text-lg font-medium">User Name</label>
-              <input
-                className="w-full border-2 border-gray-200 rounded-xl p-3 mt-1 bg-transparent"
-                type="text"
-                placeholder="Enter your name"
-              />
-            </div>
             <div>
               <label className="text-lg font-medium">Email</label>
               <input
@@ -39,14 +31,24 @@ const Registration = () => {
               <div className="flex justify-between items-center mt-6">
                 <div>
                   <input type="checkbox" id="remember" />
-                  <label for="remember" className="ml-2 text-base font-medium">Remember me</label>
+                  <label for="remember" className="ml-2 text-base font-medium">
+                    Remember me
+                  </label>
                 </div>
-                <div className="flex gap-1">
-                    <p className="font-medium text-base"> Already have an account? </p>
-                  <button className="text-violet-500" onClick={()=>navigate("/login")}>Login</button>
+                <div>
+                  <button className="text-violet-800">Frogot Password</button>
                 </div>
               </div>
-              <div className="bg-violet-500 text-center py-3 font-medium text-xl rounded-xl mt-4 text-white cursor-pointer"><button>Register</button></div>
+              <div className="active:scale-[.98] active:duration-75 hover:scale-[1.01] ease-in-out transition-all bg-violet-500 text-center py-3 font-medium text-xl rounded-xl mt-4 text-white cursor-pointer">
+                {" "}
+                <button className="">
+                  Login
+                </button>
+              </div>
+              <div className="mt-6 flex justify-center items-center gap-1">
+                <p className="font-medium text-base">Don't have an account? </p>
+                <button className="text-violet-500" onClick={() => navigate("/register")}>Register</button>
+              </div>
             </div>
           </div>
         </div>
@@ -59,4 +61,4 @@ const Registration = () => {
   );
 };
 
-export default Registration;
+export default Login;
