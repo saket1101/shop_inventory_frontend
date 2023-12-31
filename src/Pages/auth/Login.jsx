@@ -1,8 +1,41 @@
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 const Login = () => {
-let navigate = useNavigate();
+  // local state
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const [emailError, setEmailError] = useState("");
+  const [passwordError, setPasswordError] = useState("");
+  let navigate = useNavigate();
+
+  const handleSubmit = () => {
+    const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
+
+    if (!email) {
+      setEmailError("Email is required");
+      return;
+    } else {
+      setEmailError("");
+    }
+    if (!emailRegex.test(email)) {
+      setEmailError("Invalid email format");
+      return;
+    } else {
+      setEmailError("");
+    }
+
+    if (!password) {
+      setPasswordError("Password is required");
+      return;
+    } else {
+      setPasswordError("");
+    }
+    console.log("hii");
+  };
+
   return (
     <div className="flex w-full h-screen bg-gray-300">
       <div className="w-full flex items-center justify-center lg:w-1/2 ">
@@ -12,26 +45,56 @@ let navigate = useNavigate();
           </h1>
           <div>
             <div>
-              <label className="text-lg font-medium">Email</label>
+              <label className="text-lg font-medium" htmlFor="email">
+                Email
+              </label>
               <input
+                id="email"
                 className="w-full border-2 border-gray-200 rounded-xl p-3 mt-1 bg-transparent"
                 type="email"
                 placeholder="Enter your email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
               />
+              {emailError && <p className="text-red-500">{emailError}</p>}
             </div>
             <div>
-              <label className="text-lg font-medium">Password</label>
-              <input
-                className="w-full border-2 border-gray-200 rounded-xl p-3 mt-1 bg-transparent"
-                type="password"
-                placeholder="Enter your password"
-              />
+              <label className="text-lg font-medium" htmlFor="password">
+                Password
+              </label>
+              <div className="relative">
+                <input
+                  id="password"
+                  className="w-full border-2 border-gray-200 rounded-xl p-3 mt-1 bg-transparent"
+                  type={showPassword ? "text" : "password"}
+                  placeholder="Enter your password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                />
+                {passwordError && (
+                  <p className="text-red-500">{passwordError}</p>
+                )}
+
+                <button
+                  className="absolute right-3 top-1/2 transform -translate-y-1/2"
+                  onClick={() => setShowPassword(!showPassword)}
+                >
+                  {showPassword ? (
+                    <VisibilityOffIcon /> // Replace with your icon for hidden password
+                  ) : (
+                    <VisibilityIcon /> // Replace with your icon for visible password
+                  )}{" "}
+                </button>
+              </div>
             </div>
             <div>
               <div className="flex justify-between items-center mt-6">
                 <div>
                   <input type="checkbox" id="remember" />
-                  <label for="remember" className="ml-2 text-base font-medium">
+                  <label
+                    htmlFor="remember"
+                    className="ml-2 text-base font-medium"
+                  >
                     Remember me
                   </label>
                 </div>
@@ -41,13 +104,18 @@ let navigate = useNavigate();
               </div>
               <div className="active:scale-[.98] active:duration-75 hover:scale-[1.01] ease-in-out transition-all bg-violet-500 text-center py-3 font-medium text-xl rounded-xl mt-4 text-white cursor-pointer">
                 {" "}
-                <button className="">
+                <button className="" onClick={handleSubmit}>
                   Login
                 </button>
               </div>
               <div className="mt-6 flex justify-center items-center gap-1">
                 <p className="font-medium text-base">Don't have an account? </p>
-                <button className="text-violet-500" onClick={() => navigate("/register")}>Register</button>
+                <button
+                  className="text-violet-500"
+                  onClick={() => navigate("/register")}
+                >
+                  Register
+                </button>
               </div>
             </div>
           </div>
