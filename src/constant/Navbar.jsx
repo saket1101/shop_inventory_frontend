@@ -2,10 +2,20 @@ import React, { useState } from "react";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import { MenuItem, Avatar, IconButton } from "@mui/material";
 import Menu from "@mui/material/Menu";
+import { useNavigate } from "react-router-dom";
+import { useLogoutMutation } from "../redux/Api/userApi";
+import { setCredentials } from "../redux/reducers/authSlice";
+import { useDispatch } from "react-redux";
 
 const Navbar = () => {
   const [anchorEl, setAnchorEl] = useState(null);
   const [log_open, setLog_open] = useState(false);
+
+  //  rtk query call
+  const [logoutuser, { isLoading }] = useLogoutMutation();
+  // nagivation
+  let navigate = useNavigate();
+  let dispatch = useDispatch();
 
   const handle_log_open = (event) => {
     setAnchorEl(event.currentTarget);
@@ -17,9 +27,15 @@ const Navbar = () => {
     setLog_open(false);
   };
 
-  const handleLogout = () => {
-    localStorage.removeItem("token");
-    setLog_open(false);
+  const handleLogout = async () => {
+    console.log("logout")
+    try {
+      const result = await logoutuser().unwrap();
+      dispatch(setCredentials())
+      navigate("/login")
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (

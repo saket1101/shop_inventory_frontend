@@ -2,6 +2,10 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
+import { useLoginMutation } from "../../redux/Api/userApi";
+import { setCredentials } from "../../redux/reducers/authSlice";
+import{useDispatch} from "react-redux"
+
 const Login = () => {
   // local state
   const [email, setEmail] = useState("");
@@ -9,9 +13,15 @@ const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
-  let navigate = useNavigate();
 
-  const handleSubmit = () => {
+  // react-router-dom
+  let navigate = useNavigate();
+  let dispatch = useDispatch();
+
+  // calling rtk query
+  const [login, { isLoading }] = useLoginMutation();
+
+  const handleSubmit = async() => {
     const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
 
     if (!email) {
@@ -33,7 +43,14 @@ const Login = () => {
     } else {
       setPasswordError("");
     }
-    console.log("hii");
+    try {
+      const result = await login({email,password}).unwrap();
+      dispatch(setCredentials(result.data))
+      alert("Login Success");
+      navigate("/")
+    } catch (error) {
+      console.log(error)
+    }
   };
 
   return (
@@ -79,11 +96,7 @@ const Login = () => {
                   className="absolute right-3 top-1/2 transform -translate-y-1/2"
                   onClick={() => setShowPassword(!showPassword)}
                 >
-                  {showPassword ? (
-                    <VisibilityOffIcon /> // Replace with your icon for hidden password
-                  ) : (
-                    <VisibilityIcon /> // Replace with your icon for visible password
-                  )}{" "}
+                  {showPassword ? <VisibilityOffIcon /> : <VisibilityIcon />}{" "}
                 </button>
               </div>
             </div>
@@ -104,8 +117,8 @@ const Login = () => {
               </div>
               <div className="active:scale-[.98] active:duration-75 hover:scale-[1.01] ease-in-out transition-all bg-violet-500 text-center py-3 font-medium text-xl rounded-xl mt-4 text-white cursor-pointer">
                 {" "}
-                <button className="" onClick={handleSubmit}>
-                  Login
+                <button className="" onClick={handleSubmit} disabled={isLoading}>
+                  {isLoading ? "Loading...": "Login"}
                 </button>
               </div>
               <div className="mt-6 flex justify-center items-center gap-1">

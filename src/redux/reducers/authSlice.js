@@ -10,7 +10,9 @@ const  initialState = {
     initialState,
     reducers:{
         setCredentials:(state,action) => {
+            state.isLoading = true;
             state.user = action.payload;
+            state.isLoading = false;
         },
         logout:(state,action) => {
             state.user = null;

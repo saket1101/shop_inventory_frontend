@@ -12,7 +12,20 @@ export const userApi = mainApi.injectEndpoints({
         body: data,
       }),
     }),
+    login: builder.mutation({
+      query: (data) => ({
+        url: `${USERS_URL}/login`,
+        method: "POST",
+        body: data,
+      }),
+    }),
+    logout: builder.mutation({
+      query: (data) => ({
+        url: `${USERS_URL}/logout`,
+        method: "GET",
+      }),
+    }),
   }),
 })
 
-export const {useRegisterMutation} = userApi;
+export const {useRegisterMutation,useLoginMutation,useLogoutMutation} = userApi;
