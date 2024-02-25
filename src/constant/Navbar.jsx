@@ -28,7 +28,6 @@ const Navbar = () => {
   };
 
   const handleLogout = async () => {
-    console.log("logout")
     try {
       const result = await logoutuser().unwrap();
       dispatch(setCredentials())

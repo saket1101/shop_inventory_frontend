@@ -115,6 +115,7 @@ const Login = () => {
                   <button className="text-violet-800">Frogot Password</button>
                 </div>
               </div>
+              
               <div className="active:scale-[.98] active:duration-75 hover:scale-[1.01] ease-in-out transition-all bg-violet-500 text-center py-3 font-medium text-xl rounded-xl mt-4 text-white cursor-pointer">
                 {" "}
                 <button className="" onClick={handleSubmit} disabled={isLoading}>
@@ -130,7 +131,9 @@ const Login = () => {
                   Register
                 </button>
               </div>
+              
             </div>
+            
           </div>
         </div>
       </div>
